@@ -1,3 +1,4 @@
+/* function to add a row to table */
 function addRow() {
     var table = document.getElementById("table");
     var row = table.insertRow(0);
@@ -7,7 +8,9 @@ function addRow() {
     cell2.innerHTML = "Weight: <input class=\"weight\" type=\"number\" min=\"1\" max=\"100\" required>";
 }
 
+/* function to calculate 9.0 and 4.0 scale GPAs given correct inputs */
 function calculateGPAs() {
+    /* grab course grades and weights */
     const gradeValues = Array.from(document.querySelectorAll('.grade'))
         .map(input => input.value)
     const weightValues = Array.from(document.querySelectorAll('.weight'))
@@ -17,6 +20,7 @@ function calculateGPAs() {
     var gradeTotal4Scale = 0;
     var weightTotal = 0;
 
+    /* map grades to correct grade points and aggregate total grade points and course weight for each scale */
     for (var i = 0; i < gradeValues.length; i++) {
         var currGrade = parseInt(gradeValues[i]);
         var currWeight = parseInt(weightValues[i]);
@@ -50,14 +54,18 @@ function calculateGPAs() {
         }
         weightTotal += currWeight;
     }
+    /* return GPAs for 4.0 and 9.0 scale rounded to 2 decimal places for clarity */
     alert("9.0 Scale GPA - " + (gradeTotal9Scale / weightTotal).toFixed(2) + "\n4.0 Scale GPA - " + (gradeTotal4Scale / weightTotal).toFixed(2));
 }
 
-function checkInputs() {
+/* function to check inputs for GPA calculator */
+function calculate() {
     var errorFlag = false;
+    /* grab course grades and weights by classname */
     gradeInputs = document.getElementsByClassName('grade');
     weightInputs = document.getElementsByClassName('weight');
 
+    /* check for incorrect grade inputs */
     for (index = 0; index < gradeInputs.length; index++) {
         var cellVal = gradeInputs[index].value;
         if (!(cellVal >= 0 && cellVal <= 100) || cellVal == "") {
@@ -66,19 +74,22 @@ function checkInputs() {
         }
     }
 
+    /* check for incorrect weight inputs */
     for (index = 0; index < weightInputs.length; index++) {
         var cellVal = weightInputs[index].value;
-        if (!(cellVal >= 0 && cellVal <= 100) || cellVal == "") {
+        if (!(cellVal >= 1 && cellVal <= 100) || cellVal == "") {
 
             weightInputs[index].value = "";
             errorFlag = true;
         }
     }
 
+    /* if no incorrect inputs do GPA calculations return them and reload page */
     if (!errorFlag) {
         calculateGPAs();
         window.location.reload();
     } else {
+        /* if incorrect inputs warn user to re-enter correct inputs */
         alert("Enter values between 0 and 100 for grades and values between 1 and 100 for weights.");
     }
 }

@@ -11,18 +11,25 @@
 </head>
 
 <body>
+    <!-- form to check entered data -->
     <form>
+        <!-- table to hold and grow number of courses as each course is a row -->
         <table id="table">
+            <!-- each row is a course -->
             <tr>
+                <!-- 2 columns one for course grade other for course weight -->
+                <!-- 0 to 100 for grade, 1 to 100 for course weight -->
                 <td>Grade (Percentage): <input class="grade" type="number" min="0" max="100" required></td>
                 <td>Weight: <input class="weight" type="number" min="1" max="100" required></td>
             </tr>
         </table>
+        <!-- button to add row/course to calculation -->
         <button type="button" onclick="addRow()">Add Course</button>
-        <button type="submit" onclick="checkInputs()">Calculate GPAs</button>
+        <!-- button to do calculation -->
+        <button type="submit" onclick="calculate()">Calculate GPAs</button>
+        <!-- button to reload page/calculator -->
         <button type="button" onclick="window.location.reload()">Reset</button>
     </form>
-    
 </body>
 
 </html>
