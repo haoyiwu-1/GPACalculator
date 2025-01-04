@@ -1,10 +1,20 @@
+const form = document.querySelector('form');
+
+form.addEventListener('focusin', (event) => {
+    if (event.target.tagName.toLowerCase() === 'input') {
+        document.getElementById("warning").textContent = "";
+    }
+})
+
+
+
 /* function to add a row to table */
 function addRow() {
     var table = document.getElementById("table");
     var row = table.insertRow(0);
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
-    cell1.innerHTML = "Grade (Percentage): <input class=\"grade\" type=\"number\" min=\"0\" max=\"100\" required>";
+    cell1.innerHTML = "Grade (Percent): <input class=\"grade\" type=\"number\" min=\"0\" max=\"100\" required>";
     cell2.innerHTML = "Weight: <input class=\"weight\" type=\"number\" min=\"1\" max=\"100\" required>";
 }
 
@@ -55,7 +65,8 @@ function calculateGPAs() {
         weightTotal += currWeight;
     }
     /* return GPAs for 4.0 and 9.0 scale rounded to 2 decimal places for clarity */
-    alert("9.0 Scale GPA - " + (gradeTotal9Scale / weightTotal).toFixed(2) + "\n4.0 Scale GPA - " + (gradeTotal4Scale / weightTotal).toFixed(2));
+    var result = document.getElementById("result");
+    result.textContent = "9.0 Scale GPA - " + (gradeTotal9Scale / weightTotal).toFixed(2) + "\n4.0 Scale GPA - " + (gradeTotal4Scale / weightTotal).toFixed(2);
 }
 
 /* function to check inputs for GPA calculator */
@@ -87,9 +98,8 @@ function calculate() {
     /* if no incorrect inputs do GPA calculations return them and reload page */
     if (!errorFlag) {
         calculateGPAs();
-        window.location.reload();
     } else {
         /* if incorrect inputs warn user to re-enter correct inputs */
-        alert("Enter values between 0 and 100 for grades and values between 1 and 100 for weights.");
+        document.getElementById("warning").textContent = "Enter values between 0 and 100 for grades and values between 1 and 100 for weights.";
     }
 }
