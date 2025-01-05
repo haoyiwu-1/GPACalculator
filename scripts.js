@@ -30,43 +30,56 @@ function calculateGPAs() {
     var gradeTotal4Scale = 0;
     var weightTotal = 0;
 
+    const gradeToPoints9Scale = [
+        { min: 90, max: 100, points: 9 },
+        { min: 80, max: 89, points: 8 },
+        { min: 75, max: 79, points: 7 },
+        { min: 70, max: 74, points: 6 },
+        { min: 65, max: 69, points: 5 },
+        { min: 60, max: 64, points: 4 },
+        { min: 55, max: 59, points: 3 },
+        { min: 50, max: 54, points: 2 },
+        { min: 40, max: 49, points: 1 },
+        { min: 0, max: 49, points: 0 },
+    ];
+
+    const gradeToPoints4Scale = [
+        { min: 90, max: 100, points: 4 },
+        { min: 85, max: 89, points: 3.9 },
+        { min: 80, max: 84, points: 3.7 },
+        { min: 77, max: 79, points: 3.3 },
+        { min: 73, max: 76, points: 3 },
+        { min: 70, max: 72, points: 2.7 },
+        { min: 67, max: 69, points: 2.3 },
+        { min: 63, max: 66, points: 2 },
+        { min: 60, max: 62, points: 1.7 },
+        { min: 57, max: 59, points: 1.3 },
+        { min: 53, max: 56, points: 1 },
+        { min: 50, max: 52, points: 0.7 },
+        { min: 0, max: 49, points: 0 },
+    ];
+
     /* map grades to correct grade points and aggregate total grade points and course weight for each scale */
     for (var i = 0; i < gradeValues.length; i++) {
         var currGrade = parseInt(gradeValues[i]);
         var currWeight = parseInt(weightValues[i]);
-        if (currGrade >= 90 && currGrade <= 100) {
-            gradeTotal9Scale += 9 * currWeight;
-            gradeTotal4Scale += 4 * currWeight;
-        } else if (currGrade >= 80 && currGrade <= 89) {
-            gradeTotal9Scale += 8 * currWeight;
-            gradeTotal4Scale += 3.8 * currWeight;
-        } else if (currGrade >= 75 && currGrade <= 79) {
-            gradeTotal9Scale += 7 * currWeight;
-            gradeTotal4Scale += 3.3 * currWeight;
-        } else if (currGrade >= 70 && currGrade <= 74) {
-            gradeTotal9Scale += 6 * currWeight;
-            gradeTotal4Scale += 3 * currWeight;
-        } else if (currGrade >= 65 && currGrade <= 69) {
-            gradeTotal9Scale += 5 * currWeight;
-            gradeTotal4Scale += 2.3 * currWeight;
-        } else if (currGrade >= 60 && currGrade <= 64) {
-            gradeTotal9Scale += 4 * currWeight;
-            gradeTotal4Scale += 2 * currWeight;
-        } else if (currGrade >= 55 && currGrade <= 59) {
-            gradeTotal9Scale += 3 * currWeight;
-            gradeTotal4Scale += 1.3 * currWeight;
-        } else if (currGrade >= 50 && currGrade <= 54) {
-            gradeTotal9Scale += 2 * currWeight;
-            gradeTotal4Scale += 1 * currWeight;
-        } else {
-            gradeTotal9Scale += 0 * currWeight;
-            gradeTotal4Scale += 0 * currWeight;
+
+        if (isNaN(currGrade) || isNaN(currWeight) || currWeight <= 0) {
+            continue;
         }
+
+        const grade9 = gradeToPoints9Scale.find(grade => currGrade >= grade.min && currGrade <= grade.max);
+        gradeTotal9Scale += grade9 ? grade9.points * currWeight : 0;
+
+        const grade4 = gradeToPoints4Scale.find(grade => currGrade >= grade.min && currGrade <= grade.max);
+        gradeTotal4Scale += grade4 ? grade4.points * currWeight : 0;
+
         weightTotal += currWeight;
     }
     /* return GPAs for 4.0 and 9.0 scale rounded to 2 decimal places for clarity */
     var result = document.getElementById("result");
     result.textContent = "9.0 Scale GPA - " + (gradeTotal9Scale / weightTotal).toFixed(2) + "\n4.0 Scale GPA - " + (gradeTotal4Scale / weightTotal).toFixed(2);
+    result.scrollIntoView({ behavior: 'smooth' });
 }
 
 /* function to check inputs for GPA calculator */
