@@ -6,12 +6,10 @@ form.addEventListener('focusin', (event) => {
     }
 })
 
-
-
 /* function to add a row to table */
 function addRow() {
     var table = document.getElementById("table");
-    var row = table.insertRow(0);
+    var row = table.insertRow();
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
     cell1.innerHTML = "Grade (Percent): <input class=\"grade\" type=\"number\" min=\"0\" max=\"100\" required>";
@@ -79,7 +77,7 @@ function calculateGPAs() {
     /* return GPAs for 4.0 and 9.0 scale rounded to 2 decimal places for clarity */
     var result = document.getElementById("result");
     result.textContent = "9.0 Scale GPA - " + (gradeTotal9Scale / weightTotal).toFixed(2) + "\n4.0 Scale GPA - " + (gradeTotal4Scale / weightTotal).toFixed(2);
-    result.scrollIntoView({ behavior: 'smooth' });
+    result.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 }
 
 /* function to check inputs for GPA calculator */
